@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class Main {
 	public Main() {
 		final Frame window = new Frame();
-		JPanel pGame = new JPanel(); // PREFERRED!
+		JPanel pGame = new JPanel();
 		JPanel pNext = new JPanel();
 		JPanel pHold = new JPanel();
 		JPanel pScore = new JPanel();
