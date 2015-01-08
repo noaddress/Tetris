@@ -2,14 +2,14 @@ public class Background{
 int[][] state;//10*20
 
 public Background(){
-	
+	this.init();
 	
 }
 public void setaZ(int x, int y, int color){
 	state[x][y]=color;
 }
 
-public int getaZ(int x, int y, int color){
+public int getaZ(int x, int y){
 	return state[x][y];
 }
 public void init(){

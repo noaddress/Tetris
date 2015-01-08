@@ -112,8 +112,8 @@ public class Tetrominos {
 		return posX;
 	}
 
-	public int[][] getForm() {
-		return Form;
+	public int getForm(int x, int y) {
+		return Form[x][y];
 	}
 
 }
