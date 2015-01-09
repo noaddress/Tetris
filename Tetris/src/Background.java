@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class Background{
 int[][] state;//10*20
 
@@ -33,5 +35,26 @@ public void delLine(int y){
 		state[i][20]=0;
 	}
 	
+}
+public Color getColor(int x, int y){
+	switch(state[x][y]){
+	case 1:
+		return Color.yellow;
+	case 2:
+		return Color.cyan;
+	case 3:
+		return Color.green;
+	case 4:
+		return Color.red;
+	case 5:
+		return Color.orange;
+	case 6:
+		return Color.blue;
+	case 7:
+		return Color.pink;
+	}
+	
+
+return Color.black;
 }
 }

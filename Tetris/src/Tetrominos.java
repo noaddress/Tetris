@@ -115,5 +115,8 @@ public class Tetrominos {
 	public int getForm(int x, int y) {
 		return Form[x][y];
 	}
+	public void resetRot() {
+		Form=Form2;
+	}
 
 }

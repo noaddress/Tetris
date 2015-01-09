@@ -4,24 +4,63 @@ import java.awt.Frame;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Window;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JPanel;
 
 public class Main {
-	public Main() {
-		final Frame window = new Frame();
-		JPanel pGame = new JPanel();
-		JPanel pNext = new JPanel();
-		JPanel pHold = new JPanel();
-		JPanel pScore = new JPanel();
-		JPanel pStat = new JPanel();
+	
+	JPanel pGame = new JPanel();
+	JPanel pNext = new JPanel();
+	JPanel pHold = new JPanel();
+	JPanel pScore = new JPanel();
+	JPanel pStat = new JPanel();
+	Frame window = new Frame();
+
+	public Main(final Game g) {
+
+		window.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int keyCode = e.getKeyCode();
+			    switch( keyCode ) { 
+			        case KeyEvent.VK_UP:
+			        	g.up();
+			            break;
+			        case KeyEvent.VK_DOWN:
+			        	g.down();
+			            break;
+			        case KeyEvent.VK_LEFT:
+			        	g.left();
+			            break;
+			        case KeyEvent.VK_RIGHT :
+			        	g.right();
+			            break;
+			        case KeyEvent.VK_SPACE :
+			        	g.hold();
+			            break;
+			     }			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}});
 		window.setSize(600, 600);
-		pGame.setSize(400, 600);
-		pNext.setSize(100, 100);
-		pHold.setSize(100, 100);
-		pScore.setSize(100, 100);
+		pGame.setSize(300, 600);
+		pNext.setSize(300, 200);
+		pHold.setSize(300, 200);
+		pScore.setSize(300, 200);
 		window.add(pGame);
 		pStat.add(pNext);
 		pStat.add(pHold);
@@ -65,7 +104,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		Main a = new Main();
-	}
+		Game a = new Game();	
+		}
 
 }
