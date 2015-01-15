@@ -1,110 +1,113 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.GridBagLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Window;
+import java.awt.List;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Vector;
 
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class Main {
+	ArrayList<JPanel> panelList = new ArrayList<JPanel>();
 	
-	JPanel pGame = new JPanel();
-	JPanel pNext = new JPanel();
-	JPanel pHold = new JPanel();
-	JPanel pScore = new JPanel();
-	JPanel pStat = new JPanel();
-	Frame window = new Frame();
-
 	public Main(final Game g) {
+		JFrame mainFrame = new JFrame();
+		mainFrame.setPreferredSize(new Dimension(300,600));
+		mainFrame.setLayout(new GridLayout(20, 10));
+		for (int x = 0; x < 200; x++) {
+			
+				panelList.add(new JPanel());
+				JPanel panel = panelList.get(x);
+				
+				panel.setSize(30, 30);
+				if(0==0){
+				panel.setBackground(Color.yellow);
+				panel.setBorder(new LineBorder(Color.gray,1));
+				}
+				else
+				{
+					panel.setBackground(Color.black);
 
-		window.addKeyListener(new KeyListener(){
+				}
+				mainFrame.add(panel);
+		}
+
+		
+		
+		mainFrame.pack();
+		mainFrame.setVisible(true);
+
+		/*fa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// fb.setBounds(0, 0, 30, 30);
+
+		fb.setVisible(true);
+		fb.setBackground(Color.YELLOW); // Whatever color
+		fa.add(fb);
+		fa.setVisible(true);
+
+		/*
+		 * for (int x = 0; x < 10; x++) { for (int y = 0; y < 20; y++) {
+		 * q.fillRect(x * 30, y * 30, 30, 30); } }
+		 */
+
+		mainFrame.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
-			    switch( keyCode ) { 
-			        case KeyEvent.VK_UP:
-			        	g.up();
-			            break;
-			        case KeyEvent.VK_DOWN:
-			        	g.down();
-			            break;
-			        case KeyEvent.VK_LEFT:
-			        	g.left();
-			            break;
-			        case KeyEvent.VK_RIGHT :
-			        	g.right();
-			            break;
-			        case KeyEvent.VK_SPACE :
-			        	g.hold();
-			            break;
-			     }			}
+				switch (keyCode) {
+				case KeyEvent.VK_UP:
+					g.up();
+					break;
+				case KeyEvent.VK_DOWN:
+					g.step();
+					break;
+				case KeyEvent.VK_LEFT:
+					g.left();
+					break;
+				case KeyEvent.VK_RIGHT:
+					g.right();
+					break;
+				case KeyEvent.VK_SPACE:
+					g.hold();
+					break;
+				}
+				
+			}
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				
-			}});
-		window.setSize(600, 600);
-		pGame.setSize(300, 600);
-		pNext.setSize(300, 200);
-		pHold.setSize(300, 200);
-		pScore.setSize(300, 200);
-		window.add(pGame);
-		pStat.add(pNext);
-		pStat.add(pHold);
-		pStat.add(pScore);
-		window.add(pStat);
-		pGame.setBackground(Color.black);
-		pNext.setBackground(Color.red);
-		pHold.setBackground(Color.green);
-		pScore.setBackground(Color.yellow);
-		GridLayout grid;
-		window.setLayout(grid = new GridLayout());
-		window.setTitle("Tetris");
-		pStat.setLayout(new GridLayout(3, 1));
-		window.setBackground(Color.black);
-		window.setResizable(false);
-		window.addWindowListener(new WindowListener() {
-			public void windowActivated(WindowEvent arg0) {
-			}
 
-			public void windowClosed(WindowEvent arg0) {
-			}
-
-			public void windowClosing(WindowEvent arg0) {
-				window.dispose();
-			}
-
-			public void windowDeactivated(WindowEvent arg0) {
-			}
-
-			public void windowDeiconified(WindowEvent arg0) {
-			}
-
-			public void windowIconified(WindowEvent arg0) {
-			}
-
-			public void windowOpened(WindowEvent arg0) {
 			}
 		});
-		window.setVisible(true);
 
 	}
 
+	
+	public void setPixel(int x, int y, Color color) {
+		panelList.get(x+((19-y)*10)).setBackground(color);
+	}
+
+	
 	public static void main(String[] args) {
-		Game a = new Game();	
-		}
+		Game a = new Game();
+	}
 
 }

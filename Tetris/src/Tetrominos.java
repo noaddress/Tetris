@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class Tetrominos {
 	int[][] Form = new int[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
 			{ 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
@@ -62,27 +64,37 @@ public class Tetrominos {
 
 	public void rot() {
 		this.rot = (this.rot + 1) % 4;
+		for(int i=0;i<4;i++){//copy array
+			for(int j=0;j<4;j++){
+				Form2[i][j]=Form[i][j];
+			}
+		}
 		if (this.block == 2) {
 			if (this.rot % 2 == 0) {
+
+				Form[2][0] = 0;
+				Form[2][1] = 0;
+				Form[2][2] = 0;
+				Form[2][3] = 0;
 				Form[0][1] = 2;
 				Form[1][1] = 2;
 				Form[2][1] = 2;
 				Form[3][1] = 2;
 			} else {
+
+				Form[0][1] = 0;
+				Form[1][1] = 0;
+				Form[2][1] = 0;
+				Form[3][1] = 0;
 				Form[2][0] = 2;
 				Form[2][1] = 2;
 				Form[2][2] = 2;
 				Form[2][3] = 2;
 			}
 		} else {
-			for(int i=0;i<4;i++){//copy array
-				for(int j=0;j<4;j++){
-					Form2[i][j]=Form[i][j];
-				}
-			}
 			
-			for(int i=0;i<4;i++){//rotate array 90cw
-				for(int j=0;j<4;j++){
+			for(int i=1;i<4;i++){//rotate array 90cw
+				for(int j=0;j<3;j++){
 					Form[3-j][i-1]=Form2[i][j];
 				}
 			}
@@ -116,7 +128,33 @@ public class Tetrominos {
 		return Form[x][y];
 	}
 	public void resetRot() {
-		Form=Form2;
+		for(int i=0;i<4;i++){//copy array
+			for(int j=0;j<4;j++){
+				Form[i][j]=Form2[i][j];
+			}
+		}
+		System.out.println("asdf");
+	}
+	public Color getColor(int x, int y){
+		switch(Form[x][y]){
+		case 1:
+			return new Color(255, 250, 0);
+		case 2:
+			return Color.cyan;
+		case 3:
+			return Color.green;
+		case 4:
+			return Color.red;
+		case 5:
+			return Color.orange;
+		case 6:
+			return Color.blue;
+		case 7:
+			return Color.pink;
+		}
+		
+
+	return Color.black;
 	}
 
 }
