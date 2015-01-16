@@ -14,7 +14,7 @@ public class Tetrominos {
 		block = x;
 		rot = 0;
 		this.posX = 2;
-		this.posY = 19;
+		this.posY = 20;
 		switch (x) {
 		case 1:// 0
 			Form[1][1] = 1;
