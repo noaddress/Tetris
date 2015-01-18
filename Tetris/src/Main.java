@@ -109,6 +109,9 @@ for (int x = 0; x < 200; x++) {
 				case KeyEvent.VK_SPACE:
 					g.hold();
 					break;
+				case KeyEvent.VK_P:
+					g.pause();
+					break;
 				}
 
 			}
@@ -144,5 +147,4 @@ for (int x = 0; x < 200; x++) {
 		label.setText(Integer.toString(x));
 		
 	}
-
 }
