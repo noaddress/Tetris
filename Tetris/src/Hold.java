@@ -2,7 +2,6 @@ import java.awt.Color;
 
 public class Hold {
 	int[][] Disp = new int[][] {{ 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }};
-	int[] Form = new int[] { 0, 0, 0 };
 
 	boolean used;
 	int holdPart;
@@ -12,6 +11,7 @@ public Hold(){
 public int swap(int x){
 	int temp=holdPart;
 	holdPart=x;
+	setDisp();
 	return temp;
 	
 }
@@ -21,12 +21,12 @@ public boolean isUsed(){
 public void newSwap(int x){
 	used=true;
 	holdPart=x;
-
+setDisp();
 }
 public void setDisp(){
 	Disp = new int[][] {{ 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }};
-	for(int x=0;x<3;x++){
-		switch (Form[x]) {
+int x=1;
+	switch (holdPart) {
 		case 1:// 0
 			Disp[x*3+1][2] = 1;
 			Disp[x*3+1][3] = 1;
@@ -71,7 +71,7 @@ public void setDisp(){
 			break;
 		}
 		
-	}
+	
 	
 }
 public Color getColor(int x, int y){

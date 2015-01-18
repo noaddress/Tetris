@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -12,7 +13,9 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -20,14 +23,18 @@ public class Main {
 	ArrayList<JPanel> panelList = new ArrayList<JPanel>();
 	ArrayList<JPanel> prevList = new ArrayList<JPanel>();
 	ArrayList<JPanel> holdList = new ArrayList<JPanel>();
+	JFrame mainFrame = new JFrame();
+	JPanel game = new JPanel();
+	JPanel stat = new JPanel();
+	JPanel hold = new JPanel();
+	JPanel preview = new JPanel();
+	JPanel score = new JPanel();
+	JLabel labela = new JLabel("");
+	JLabel label = new JLabel("0",SwingConstants.CENTER);
+	JLabel labelb = new JLabel("");
 
 	public Main(final Game g) {
-		JFrame mainFrame = new JFrame();
-		JPanel game = new JPanel();
-		JPanel stat = new JPanel();
-		JPanel hold = new JPanel();
-		JPanel preview = new JPanel();
-		JPanel score = new JPanel();
+		
 
 		mainFrame.setPreferredSize(new Dimension(600, 600));
 		game.setLayout(new GridLayout(20, 10));
@@ -35,16 +42,22 @@ public class Main {
 		stat.setLayout(new GridLayout(3, 1));
 		preview.setLayout(new GridLayout(6, 10));
 		hold.setLayout(new GridLayout(6, 10));
+		score.setLayout(new GridLayout(3, 1));
 
 		game.setSize(300, 600);
 		stat.setSize(300, 600);
-		hold.setBackground(Color.green);
+		hold.setBackground(Color.black);
 		game.setBackground(Color.black);
 		stat.setBackground(Color.black);
 		preview.setBackground(Color.black);
-		score.setBackground(Color.blue);
+		score.setBackground(Color.black);
+		score.add(labela);
+		score.add(label);
+		score.add(labelb);
 
-		for (int x = 0; x < 200; x++) {
+		label.setSize(300, 200);
+		label.setFont(new Font("Arial",1,50));
+for (int x = 0; x < 200; x++) {
 			panelList.add(new JPanel());
 			JPanel panel = panelList.get(x);
 			panel.setSize(30, 30);
@@ -64,7 +77,7 @@ public class Main {
 			holdList.add(new JPanel());
 			JPanel panelh = holdList.get(x);
 			panelh.setSize(30, 30);
-			panelh.setBackground(Color.yellow);
+			panelh.setBackground(Color.black);
 			panelh.setBorder(new LineBorder(Color.gray, 1));
 			hold.add(panelh);
 		}
@@ -126,6 +139,10 @@ public class Main {
 	}
 	public static void main(String[] args) {
 		Game a = new Game();
+	}
+	public void setScore(int x){
+		label.setText(Integer.toString(x));
+		
 	}
 
 }

@@ -133,7 +133,6 @@ public class Tetrominos {
 				Form[i][j]=Form2[i][j];
 			}
 		}
-		System.out.println("asdf");
 	}
 	public Color getColor(int x, int y){
 		switch(Form[x][y]){
