@@ -29,12 +29,11 @@ public class Main {
 	JPanel hold = new JPanel();
 	JPanel preview = new JPanel();
 	JPanel score = new JPanel();
-	JLabel labela = new JLabel("");
+	JLabel labela = new JLabel("Highscore:",SwingConstants.CENTER);
 	JLabel label = new JLabel("0",SwingConstants.CENTER);
-	JLabel labelb = new JLabel("");
+	JLabel labelb = new JLabel("",SwingConstants.CENTER);
 
-	public Main(final Game g) {
-		
+	public Main(final Game g) { //Graphics
 
 		mainFrame.setPreferredSize(new Dimension(600, 600));
 		game.setLayout(new GridLayout(20, 10));
@@ -56,8 +55,8 @@ public class Main {
 		score.add(labelb);
 
 		label.setSize(300, 200);
-		label.setFont(new Font("Arial",1,50));
-for (int x = 0; x < 200; x++) {
+		label.setFont(new Font("Courier new",1,50));
+for (int x = 0; x < 200; x++) { //"pixels" for Game
 			panelList.add(new JPanel());
 			JPanel panel = panelList.get(x);
 			panel.setSize(30, 30);
@@ -65,7 +64,7 @@ for (int x = 0; x < 200; x++) {
 			panel.setBorder(new LineBorder(Color.gray, 1));
 			game.add(panel);
 		}
-		for (int x = 0; x < 10*6; x++) {
+		for (int x = 0; x < 10*6; x++) {//"pixels" for preview
 			prevList.add(new JPanel());
 			JPanel panelp = prevList.get(x);
 			panelp.setSize(30, 30);
@@ -73,7 +72,7 @@ for (int x = 0; x < 200; x++) {
 			panelp.setBorder(new LineBorder(Color.gray, 1));
 			preview.add(panelp);
 		}
-		for (int x = 0; x < 10*6; x++) {
+		for (int x = 0; x < 10*6; x++) {//"pixels" for hold
 			holdList.add(new JPanel());
 			JPanel panelh = holdList.get(x);
 			panelh.setSize(30, 30);
@@ -94,10 +93,10 @@ for (int x = 0; x < 200; x++) {
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
 				switch (keyCode) {
-				case KeyEvent.VK_UP:
+				case KeyEvent.VK_UP://rotate
 					g.up();
 					break;
-				case KeyEvent.VK_DOWN:
+				case KeyEvent.VK_DOWN://accelerate
 					g.step();
 					break;
 				case KeyEvent.VK_LEFT:
@@ -109,7 +108,7 @@ for (int x = 0; x < 200; x++) {
 				case KeyEvent.VK_SPACE:
 					g.hold();
 					break;
-				case KeyEvent.VK_P:
+				case KeyEvent.VK_P://pause
 					g.pause();
 					break;
 				}
@@ -143,8 +142,15 @@ for (int x = 0; x < 200; x++) {
 	public static void main(String[] args) {
 		Game a = new Game();
 	}
-	public void setScore(int x){
+	public int setScore(int x,int y){
 		label.setText(Integer.toString(x));
-		
+		if (x>y){
+			labela.setText("Highscore: "+Integer.toString(x));
+			return x;
+		}
+		else{
+			labela.setText("Highscore: "+Integer.toString(y));
+			return y;
+		}
 	}
 }
