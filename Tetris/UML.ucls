@@ -79,18 +79,22 @@
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="16">    
+  <dependency id="16">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="17">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="17" name="hold"/>      
-      <multiplicity id="18" minimum="0" maximum="1"/>    
+      <attribute id="18" name="hold"/>      
+      <multiplicity id="19" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="19">    
+  <association id="20">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="20" name="backgr"/>      
-      <multiplicity id="21" minimum="0" maximum="1"/>    
+      <attribute id="21" name="backgr"/>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
