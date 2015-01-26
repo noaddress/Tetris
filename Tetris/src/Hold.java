@@ -1,14 +1,16 @@
 import java.awt.Color;
 
 public class Hold {
+	/* Hold funktion
+	 */
 	int[][] Disp = new int[][] {{ 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }};
-
-	boolean used;
-	int holdPart;
+//save form of tetr.
+	boolean used;//hold filled?
+	int holdPart;//defines which part in hold
 public Hold(){
 	used=false;
 }
-public int swap(int x){
+public int swap(int x){//swap hold with current tetr.
 	int temp=holdPart;
 	holdPart=x;
 	setDisp();
@@ -18,12 +20,12 @@ public int swap(int x){
 public boolean isUsed(){
 	return used;
 }
-public void newSwap(int x){
+public void newSwap(int x){// put current tetr. in hold
 	used=true;
 	holdPart=x;
 setDisp();
 }
-public void setDisp(){
+public void setDisp(){// define form and color
 	Disp = new int[][] {{ 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }};
 int x=1;
 	switch (holdPart) {
@@ -74,7 +76,7 @@ int x=1;
 	
 	
 }
-public Color getColor(int x, int y){
+public Color getColor(int x, int y){//return color
 	switch(Disp[x][y]){
 	case 1:
 		return new Color(255, 250, 0);

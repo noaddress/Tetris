@@ -2,10 +2,13 @@ import java.awt.Color;
 import java.util.Random;
 
 public class Preview {
+	/* Preview Funktion
+	 */
 	Random rand;
-	int[] Form = new int[] { 0, 0, 0 };
+	int[] Form = new int[] { 0, 0, 0 };//tetr. in preview
 	int[][] Disp = new int[][] {{ 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }};
-	public Preview() {
+	//defome Form of tetr.
+	public Preview() {//generate next 3 tetr.
 		for (int i = 0; i < 3; i++) {
 			Random rand = new Random();
 			Form[i] = rand.nextInt(7) + 1;
@@ -14,7 +17,7 @@ public class Preview {
 
 	}
 
-	public int next() {
+	public int next() {//generate next rand, return tetr number
 		int temp=Form[0];
 		for (int i = 0; i < 2; i++) {
 			Form[i] = Form[i+1];
@@ -22,12 +25,13 @@ public class Preview {
 		do {
 		rand = new Random();
 		Form[2]=rand.nextInt(7) + 1;
-		} while (Form[2]==Form[1] || Form[2]==Form[0]);
+		}
+		while (Form[2]==Form[1] || Form[2]==Form[0]);
 		setDisp();
 		return temp;
 	}
 	
-	public void setDisp(){
+	public void setDisp(){// define form and color
 		Disp = new int[][] {{ 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }};
 		for(int x=0;x<3;x++){
 			switch (Form[x]) {
@@ -78,7 +82,7 @@ public class Preview {
 		}
 		
 	}
-	public Color getColor(int x, int y){
+	public Color getColor(int x, int y){//return color
 		switch(Disp[x][y]){
 		case 1:
 			return new Color(255, 250, 0);
