@@ -1,3 +1,9 @@
+/* 26.01.2015 - Milestone 1
+ * Tetris
+ * Michael Vogel, Toni Tanner
+ * Quellen: Keine
+ * Gesamter Code gemeinsam entwickelt
+ */
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,9 +26,33 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class Main {
-	ArrayList<JPanel> panelList = new ArrayList<JPanel>();
-	ArrayList<JPanel> prevList = new ArrayList<JPanel>();
-	ArrayList<JPanel> holdList = new ArrayList<JPanel>();
+	/*Darstellung + Keylistener
+	 *Initialisiere Game
+	 */
+	/*
+	 *Visualisation of panels, (prev hold score) inside stats
+	 *
+	 *******************************
+	 *			 	* 				*
+	 *			 	* 				*
+	 *			 	* 	prev		*
+	 *			 	* 				*
+	 *			 	*****************
+	 *			 	* 				*
+	 *	game	 	* 	hold		*
+	 *			 	* 				*
+	 *			 	* 				*
+	 *			 	*****************
+	 *			 	* 				*
+	 *			 	* 	score		*
+	 *			 	* 				*
+	 *			 	* 				*
+	 ********************************
+	 */
+	
+	ArrayList<JPanel> panelList = new ArrayList<JPanel>();//save "pixels" game
+	ArrayList<JPanel> prevList = new ArrayList<JPanel>();//save "pixels" preview
+	ArrayList<JPanel> holdList = new ArrayList<JPanel>();//save "pixels" hold
 	JFrame mainFrame = new JFrame();
 	JPanel game = new JPanel();
 	JPanel stat = new JPanel();
@@ -33,6 +63,7 @@ public class Main {
 	JLabel label = new JLabel("  Score: ", SwingConstants.LEFT);
 	JLabel labelb = new JLabel("00", SwingConstants.RIGHT);
 	JLabel labelc = new JLabel("00", SwingConstants.RIGHT);
+	
 	public Main(final Game g) { // Graphics
 
 		mainFrame.setPreferredSize(new Dimension(600, 600));
@@ -133,11 +164,11 @@ public class Main {
 
 	}
 
-	public void setPixel(int x, int y, Color color) {
+	public void setPixel(int x, int y, Color color) { //set bg color pixel game
 		panelList.get(x + ((19 - y) * 10)).setBackground(color);
 	}
 
-	public void setPixelprev(int x, int y, Color color) {
+	public void setPixelprev(int x, int y, Color color) {//set bg color pixel preview
 		prevList.get(x + ((5 - y) * 10)).setBackground(color);
 		if (color == Color.black) {
 			prevList.get(x + ((5 - y) * 10)).setBorder(
@@ -148,7 +179,7 @@ public class Main {
 		}
 	}
 
-	public void setPixelhold(int x, int y, Color color) {
+	public void setPixelhold(int x, int y, Color color) {//set bg color pixel hold
 		holdList.get(x + ((5 - y) * 10)).setBackground(color);
 		if (color == Color.black) {
 			holdList.get(x + ((5 - y) * 10)).setBorder(
@@ -163,7 +194,7 @@ public class Main {
 		Game a = new Game();
 	}
 
-	public int setScore(int x, int y) {
+	public int setScore(int x, int y) {//set score / highscore
 		labelb.setText(Integer.toString(x)+"  ");
 		if (x > y) {
 			labelc.setText(Integer.toString(x)+"  ");

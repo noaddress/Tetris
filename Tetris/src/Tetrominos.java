@@ -1,20 +1,22 @@
 import java.awt.Color;
 
-public class Tetrominos {
+public class Tetrominos { 
+	/* Zuständig für Eigenschaften des aktiven Tetr.
+	 */
 	int[][] Form = new int[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
-			{ 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+			{ 0, 0, 0, 0 }, { 0, 0, 0, 0 } };// Define form and color of tetr.
 	int[][] Form2 = new int[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 },
 			{ 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 	int rot;
-	int posX;
-	int posY;
+	int posX;//0=left
+	int posY;//0=up 
 	int block;
 
-	public Tetrominos(int x) {
+	public Tetrominos(int x) {//define form and color
 		block = x;
 		rot = 0;
-		this.posX = 2;
-		this.posY = 20;
+		this.posX = 2;	//startpoint
+		this.posY = 20;	//of new tetr.
 		switch (x) {
 		case 1:// 0
 			Form[1][1] = 1;
@@ -62,7 +64,7 @@ public class Tetrominos {
 
 	}
 
-	public void rot() {
+	public void rot() {//rotate current tetr.
 		this.rot = (this.rot + 1) % 4;
 		for(int i=0;i<4;i++){//copy array
 			for(int j=0;j<4;j++){
@@ -127,14 +129,14 @@ public class Tetrominos {
 	public int getForm(int x, int y) {
 		return Form[x][y];
 	}
-	public void resetRot() {
+	public void resetRot() {//reset rotation previousely done.
 		for(int i=0;i<4;i++){//copy array
 			for(int j=0;j<4;j++){
 				Form[i][j]=Form2[i][j];
 			}
 		}
 	}
-	public Color getColor(int x, int y){
+	public Color getColor(int x, int y){//return color
 		switch(Form[x][y]){
 		case 1:
 			return new Color(255, 250, 0);

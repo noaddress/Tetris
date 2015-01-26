@@ -8,6 +8,10 @@ import java.util.Scanner;
 import javax.swing.JPanel;
 
 public class Game {
+	/* Spielablauf
+	 * Aktion bei Tastendruck
+	 * Aufruf anderer Klassen
+	 */
 	Tetrominos tetr;
 	Background backgr;
 	Main main;
@@ -19,26 +23,28 @@ public class Game {
 	int score = 0;
 	boolean tetris = false; // for rows at the same time
 	boolean p = false;// true when paused
-	boolean wait = false;
+	boolean wait = false;// short pause before setting tetr.
 	/*
-	 * each tetromino set:1 single line cleared: 5 double line cleared: 15
-	 * triple line cleared: 25 tetris (4lines cld): 50 combo bonus: combo nr*10
+	 * each tetromino set:1
+	 * single line cleared: 5
+	 * double line cleared: 15
+	 * triple line cleared: 25
+	 * tetris (4lines cld): 50
+	 * combo bonus: combo nr*10
 	 * tetris back2back bonus: 20
 	 */
 	boolean isHold = false;
 	int high = 0;
 
-	// int pausedef = pause;
-
 	public Game() {
 
 		backgr = new Background();
 		main = new Main(this);
-		gentetr();
-		backgr.init();
-		gethigh();
-		sethigh(main.setScore(score, high));
-		while (true) {
+		gentetr();//generate tetr.
+		backgr.init();//initialize background
+		gethigh();//read highscore in file
+		sethigh(main.setScore(score, high));//display highscore
+		while (true) { //periodically exec step
 			try {
 				if(wait){
 					Thread.sleep(100);
@@ -54,51 +60,44 @@ public class Game {
 		}
 	}
 
-	public void up() {
-		if (!p) {
+	public void up() {//rotate tetr.
+		if (!p) {// if not paused
 			tetr.rot();
 			if (!check(tetr.getPosX(), tetr.getPosY())) {// if rotation not
 															// possible
-				tetr.resetRot();
+				tetr.resetRot(); //reset rotation
 			}
 			draw();
 		}
 	}
 
-	/*
-	 * public void down() { pause = pausedef / 2;
-	 * 
-	 * }
-	 */
-	public void left() {
+
+	public void left() {//move left
 		if (!p) {
 
-			if (check(tetr.getPosX() - 1, tetr.getPosY())) {
+			if (check(tetr.getPosX() - 1, tetr.getPosY())) {//check if left possible
 				tetr.move(0);
 			}
 			draw();
 		}
 	}
 
-	public void right() {
+	public void right() {//move right
 		if (!p) {
 
-			if (check(tetr.getPosX() + 1, tetr.getPosY())) {
+			if (check(tetr.getPosX() + 1, tetr.getPosY())) {//check if right possible
 				tetr.move(2);
 			}
 			draw();
 		}
 	}
 
-	public void hold() {
+	public void hold() {//hold
 		if (!p) {
 			if (!isHold) {// hold possible only once until tetr. set
 				isHold = true;
 				if (hold.isUsed()) {
-					tetr = new Tetrominos(hold.swap(tetr.getForm(2, 1)));// (2|1)
-																			// is
-																			// rotation
-																			// point
+					tetr = new Tetrominos(hold.swap(tetr.getForm(2, 1)));// (2|1) is rotation point--> always filled
 					for (int x = 0; x < 10; x++) {// draw in hold field
 						for (int y = 0; y < 6; y++) {
 							main.setPixelhold(x, y, hold.getColor(x, y));
@@ -117,21 +116,14 @@ public class Game {
 		}
 	}
 
-	public boolean check(int x, int y) {
+	public boolean check(int x, int y) { // check if tetr. position possible
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {// foreach "pixel" of tetr
 				if (tetr.getForm(i, j) != 0) {
-					if (x + i > 9 | x + i < 0 | y - j < 0 | y - j > 19) {// check
-																			// if
-																			// out
-																			// of
-																			// bounds
+					if (x + i > 9 | x + i < 0 | y - j < 0 | y - j > 19) {// check if out of bounds
 						return false;
 
-					} else if (backgr.getaZ(x + i, y - j) != 0) {// check if
-																	// already
-																	// blocked
-																	// pixel
+					} else if (backgr.getaZ(x + i, y - j) != 0) {// check if already blocked pixel
 						return false;
 					}
 				}
@@ -140,13 +132,11 @@ public class Game {
 		return true;
 	}
 
-	public void draw() {
+	public void draw() {//display background and current tetr.
 
 		for (int x = 0; x < 10; x++) {
 			for (int y = 0; y < 20; y++) {
-				main.setPixel(x, y, backgr.getColor(x, y));// foreach on
-															// gamefiled print
-															// backgr
+				main.setPixel(x, y, backgr.getColor(x, y));// foreach on gamefiled print backgr
 			}
 		}
 		for (int x = 0; x < 4; x++) {
@@ -168,13 +158,12 @@ public class Game {
 				if (!wait) {
 					wait = true;
 				} 
-				else{
+				else{ // set tetr., generate new, add score, speedup
 					wait=false;
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 4; j++) {
 							if (tetr.Form[i][j] != 0) {
-								backgr.setaZ(tetr.getPosX() + i, tetr.getPosY()
-										- j, tetr.Form[i][j]);
+								backgr.setaZ(tetr.getPosX() + i, tetr.getPosY() - j, tetr.Form[i][j]);
 
 							}
 						}
@@ -218,25 +207,23 @@ public class Game {
 						break;
 					}
 					// bonus combo
-					speedup(99);
+					speedup(99);// pause 99% as long as before
 
 					sethigh(main.setScore(score, high));
-					if (!check(tetr.getPosX(), tetr.getPosY())) {// check if
-																	// gameover
+					if (!check(tetr.getPosX(), tetr.getPosY())) {// check if gameover
 						gameover();
 					}
 
 				}
 			}
-			// pause = pausedef;
 			draw();
 		}
 	}
 
-	public void gentetr() {
+	public void gentetr() {//generate new tetr.
 		tetr = new Tetrominos(prev.next());
 
-		for (int x = 0; x < 10; x++) {
+		for (int x = 0; x < 10; x++) {//draw preview
 			for (int y = 0; y < 6; y++) {
 				main.setPixelprev(x, y, prev.getColor(x, y));
 			}
@@ -244,11 +231,11 @@ public class Game {
 
 	}
 
-	public void pause() {
+	public void pause() {//toggle pause
 		p = !p;
 	}
 
-	public void gameover() {
+	public void gameover() {//TODO: gameover screen
 		System.exit(0);
 	}
 
@@ -256,17 +243,16 @@ public class Game {
 		pause = pause * x / 100;
 	}
 
-	public void gethigh() {
+	public void gethigh() {//read highscore from file
 		try {
 			Scanner scanner = new Scanner(new File("filename.txt"));
 			high = scanner.nextInt();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			high = 0;
 		}
 	}
 
-	public void sethigh(int f) {
+	public void sethigh(int f) {//write highscore to file
 
 		high = f;
 		try {

@@ -1,9 +1,11 @@
 import java.awt.Color;
 
 public class Background{
-int[][] state;//10*20
+int[][] state;//10*20, saves background filled with tetr.
 
 public Background(){
+	/* Zuständig für gesetzte Tetr.
+	 */
 	this.init();
 	
 }
@@ -18,7 +20,7 @@ public void init(){
 	state=new int[][] {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
 }
 
-public boolean checkLine(int y){
+public boolean checkLine(int y){//check if line filled
 	for(int i=0;i<10;i++){
 		if(state[i][y]==0){
 			return false;
@@ -27,7 +29,7 @@ public boolean checkLine(int y){
 	return true;
 }
 
-public void delLine(int y){
+public void delLine(int y){//delete line, moves tiles above 1 line down.
 	for (int i=0;i<10;i++){
 		for (int j=y;j<19;j++){
 			state[i][j]=state[i][j+1];
@@ -36,7 +38,7 @@ public void delLine(int y){
 	}
 	
 }
-public Color getColor(int x, int y){
+public Color getColor(int x, int y){//return Color
 	switch(state[x][y]){
 	case 1:
 		return new Color(255, 250, 0);
