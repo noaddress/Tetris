@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.util.Random;
 
 public class Preview {
+	Random rand;
 	int[] Form = new int[] { 0, 0, 0 };
 	int[][] Disp = new int[][] {{ 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }, { 0, 0, 0, 0,0,0 }};
 	public Preview() {
@@ -14,13 +15,14 @@ public class Preview {
 	}
 
 	public int next() {
-		Random rand = new Random();
 		int temp=Form[0];
 		for (int i = 0; i < 2; i++) {
 			Form[i] = Form[i+1];
 		}
+		do {
+		rand = new Random();
 		Form[2]=rand.nextInt(7) + 1;
-		//Form[2]=7;
+		} while (Form[2]==Form[1] || Form[2]==Form[0]);
 		setDisp();
 		return temp;
 	}

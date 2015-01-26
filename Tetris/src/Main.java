@@ -29,11 +29,11 @@ public class Main {
 	JPanel hold = new JPanel();
 	JPanel preview = new JPanel();
 	JPanel score = new JPanel();
-	JLabel labela = new JLabel("Highscore:",SwingConstants.CENTER);
-	JLabel label = new JLabel("0",SwingConstants.CENTER);
-	JLabel labelb = new JLabel("",SwingConstants.CENTER);
-
-	public Main(final Game g) { //Graphics
+	JLabel labela = new JLabel("  Highscore:", SwingConstants.LEFT);
+	JLabel label = new JLabel("  Score: ", SwingConstants.LEFT);
+	JLabel labelb = new JLabel("00", SwingConstants.RIGHT);
+	JLabel labelc = new JLabel("00", SwingConstants.RIGHT);
+	public Main(final Game g) { // Graphics
 
 		mainFrame.setPreferredSize(new Dimension(600, 600));
 		game.setLayout(new GridLayout(20, 10));
@@ -41,7 +41,7 @@ public class Main {
 		stat.setLayout(new GridLayout(3, 1));
 		preview.setLayout(new GridLayout(6, 10));
 		hold.setLayout(new GridLayout(6, 10));
-		score.setLayout(new GridLayout(3, 1));
+		score.setLayout(new GridLayout(4, 1));
 
 		game.setSize(300, 600);
 		stat.setSize(300, 600);
@@ -50,13 +50,16 @@ public class Main {
 		stat.setBackground(Color.black);
 		preview.setBackground(Color.black);
 		score.setBackground(Color.black);
-		score.add(labela);
 		score.add(label);
 		score.add(labelb);
-
+		score.add(labela);
+		score.add(labelc);
 		label.setSize(300, 200);
-		label.setFont(new Font("Courier new",1,50));
-for (int x = 0; x < 200; x++) { //"pixels" for Game
+		label.setFont(new Font("Courier new", 1, 30));
+		labela.setFont(new Font("Courier new", 1, 30));
+		labelb.setFont(new Font("Courier new", 1, 30));
+		labelc.setFont(new Font("Courier new", 1, 30));
+		for (int x = 0; x < 200; x++) { // "pixels" for Game
 			panelList.add(new JPanel());
 			JPanel panel = panelList.get(x);
 			panel.setSize(30, 30);
@@ -64,20 +67,20 @@ for (int x = 0; x < 200; x++) { //"pixels" for Game
 			panel.setBorder(new LineBorder(Color.gray, 1));
 			game.add(panel);
 		}
-		for (int x = 0; x < 10*6; x++) {//"pixels" for preview
+		for (int x = 0; x < 10 * 6; x++) {// "pixels" for preview
 			prevList.add(new JPanel());
 			JPanel panelp = prevList.get(x);
 			panelp.setSize(30, 30);
 			panelp.setBackground(Color.yellow);
-			panelp.setBorder(new LineBorder(Color.gray, 1));
+			panelp.setBorder(new LineBorder(Color.gray, 0));
 			preview.add(panelp);
 		}
-		for (int x = 0; x < 10*6; x++) {//"pixels" for hold
+		for (int x = 0; x < 10 * 6; x++) {// "pixels" for hold
 			holdList.add(new JPanel());
 			JPanel panelh = holdList.get(x);
 			panelh.setSize(30, 30);
 			panelh.setBackground(Color.black);
-			panelh.setBorder(new LineBorder(Color.gray, 1));
+			panelh.setBorder(new LineBorder(Color.gray, 0));
 			hold.add(panelh);
 		}
 		stat.add(preview);
@@ -93,10 +96,10 @@ for (int x = 0; x < 200; x++) { //"pixels" for Game
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
 				switch (keyCode) {
-				case KeyEvent.VK_UP://rotate
+				case KeyEvent.VK_UP:// rotate
 					g.up();
 					break;
-				case KeyEvent.VK_DOWN://accelerate
+				case KeyEvent.VK_DOWN:// accelerate
 					g.step();
 					break;
 				case KeyEvent.VK_LEFT:
@@ -108,7 +111,7 @@ for (int x = 0; x < 200; x++) { //"pixels" for Game
 				case KeyEvent.VK_SPACE:
 					g.hold();
 					break;
-				case KeyEvent.VK_P://pause
+				case KeyEvent.VK_P:// pause
 					g.pause();
 					break;
 				}
@@ -133,23 +136,40 @@ for (int x = 0; x < 200; x++) { //"pixels" for Game
 	public void setPixel(int x, int y, Color color) {
 		panelList.get(x + ((19 - y) * 10)).setBackground(color);
 	}
+
 	public void setPixelprev(int x, int y, Color color) {
 		prevList.get(x + ((5 - y) * 10)).setBackground(color);
+		if (color == Color.black) {
+			prevList.get(x + ((5 - y) * 10)).setBorder(
+					new LineBorder(Color.gray, 0));
+		} else {
+			prevList.get(x + ((5 - y) * 10)).setBorder(
+					new LineBorder(Color.black, 1));
+		}
 	}
+
 	public void setPixelhold(int x, int y, Color color) {
 		holdList.get(x + ((5 - y) * 10)).setBackground(color);
+		if (color == Color.black) {
+			holdList.get(x + ((5 - y) * 10)).setBorder(
+					new LineBorder(Color.gray, 0));
+		} else {
+			holdList.get(x + ((5 - y) * 10)).setBorder(
+					new LineBorder(Color.black, 1));
+		}
 	}
+
 	public static void main(String[] args) {
 		Game a = new Game();
 	}
-	public int setScore(int x,int y){
-		label.setText(Integer.toString(x));
-		if (x>y){
-			labela.setText("Highscore: "+Integer.toString(x));
+
+	public int setScore(int x, int y) {
+		labelb.setText(Integer.toString(x)+"  ");
+		if (x > y) {
+			labelc.setText(Integer.toString(x)+"  ");
 			return x;
-		}
-		else{
-			labela.setText("Highscore: "+Integer.toString(y));
+		} else {
+			labelc.setText(Integer.toString(y)+"  ");
 			return y;
 		}
 	}

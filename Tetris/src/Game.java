@@ -19,13 +19,15 @@ public class Game {
 	int score = 0;
 	boolean tetris = false; // for rows at the same time
 	boolean p = false;// true when paused
+	boolean wait = false;
 	/*
 	 * each tetromino set:1 single line cleared: 5 double line cleared: 15
 	 * triple line cleared: 25 tetris (4lines cld): 50 combo bonus: combo nr*10
 	 * tetris back2back bonus: 20
 	 */
 	boolean isHold = false;
-int high=0;
+	int high = 0;
+
 	// int pausedef = pause;
 
 	public Game() {
@@ -35,21 +37,28 @@ int high=0;
 		gentetr();
 		backgr.init();
 		gethigh();
-		sethigh(main.setScore(score,high));
+		sethigh(main.setScore(score, high));
 		while (true) {
 			try {
+				if(wait){
+					Thread.sleep(100);
+				}
 				Thread.sleep(pause);
+				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			step();
+			
+				step();
+			
 		}
 	}
 
 	public void up() {
 		if (!p) {
 			tetr.rot();
-			if (!check(tetr.getPosX(), tetr.getPosY())) {//if rotation not possible
+			if (!check(tetr.getPosX(), tetr.getPosY())) {// if rotation not
+															// possible
 				tetr.resetRot();
 			}
 			draw();
@@ -83,23 +92,26 @@ int high=0;
 
 	public void hold() {
 		if (!p) {
-			if (!isHold) {//hold possible only once until tetr. set
+			if (!isHold) {// hold possible only once until tetr. set
 				isHold = true;
 				if (hold.isUsed()) {
-					tetr = new Tetrominos(hold.swap(tetr.getForm(2, 1)));//(2|1) is rotation point
-					for (int x = 0; x < 10; x++) {//draw in hold field
+					tetr = new Tetrominos(hold.swap(tetr.getForm(2, 1)));// (2|1)
+																			// is
+																			// rotation
+																			// point
+					for (int x = 0; x < 10; x++) {// draw in hold field
 						for (int y = 0; y < 6; y++) {
 							main.setPixelhold(x, y, hold.getColor(x, y));
 						}
 					}
-				} else {//first time hold in game
-					hold.newSwap(tetr.getForm(2, 1));//(2|1) is rotation point
-					for (int x = 0; x < 10; x++) {//draw in hold field
+				} else {// first time hold in game
+					hold.newSwap(tetr.getForm(2, 1));// (2|1) is rotation point
+					for (int x = 0; x < 10; x++) {// draw in hold field
 						for (int y = 0; y < 6; y++) {
 							main.setPixelhold(x, y, hold.getColor(x, y));
 						}
 					}
-					gentetr();//create new tetr.
+					gentetr();// create new tetr.
 				}
 			}
 		}
@@ -107,12 +119,19 @@ int high=0;
 
 	public boolean check(int x, int y) {
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {//foreach "pixel" of tetr
+			for (int j = 0; j < 4; j++) {// foreach "pixel" of tetr
 				if (tetr.getForm(i, j) != 0) {
-					if (x + i > 9 | x + i < 0 | y - j < 0 | y - j > 19) {//check if out of bounds
+					if (x + i > 9 | x + i < 0 | y - j < 0 | y - j > 19) {// check
+																			// if
+																			// out
+																			// of
+																			// bounds
 						return false;
 
-					} else if (backgr.getaZ(x + i, y - j) != 0) {//check if already blocked pixel
+					} else if (backgr.getaZ(x + i, y - j) != 0) {// check if
+																	// already
+																	// blocked
+																	// pixel
 						return false;
 					}
 				}
@@ -125,13 +144,16 @@ int high=0;
 
 		for (int x = 0; x < 10; x++) {
 			for (int y = 0; y < 20; y++) {
-				main.setPixel(x, y, backgr.getColor(x, y));//foreach on gamefiled print backgr
+				main.setPixel(x, y, backgr.getColor(x, y));// foreach on
+															// gamefiled print
+															// backgr
 			}
 		}
 		for (int x = 0; x < 4; x++) {
 			for (int y = 0; y < 4; y++) {
 				if (tetr.getForm(x, y) != 0) {
-					main.setPixel(x + tetr.getPosX(), tetr.getPosY() - y,tetr.getColor(x, y));//print tetr.
+					main.setPixel(x + tetr.getPosX(), tetr.getPosY() - y,
+							tetr.getColor(x, y));// print tetr.
 				}
 			}
 		}
@@ -139,63 +161,72 @@ int high=0;
 
 	public void step() {
 		if (!p) {
-			if (check(tetr.getPosX(), tetr.getPosY() - 1)) {//check if step possible
+			if (check(tetr.getPosX(), tetr.getPosY() - 1)) {// check if step possible
 				tetr.move(1);
-			} else {//next round
-				for (int i = 0; i < 4; i++) {
-					for (int j = 0; j < 4; j++) {
-						if (tetr.Form[i][j] != 0) {
-							backgr.setaZ(tetr.getPosX() + i,
-									tetr.getPosY() - j, tetr.Form[i][j]);
+				wait=false;
+			} else {// next round
+				if (!wait) {
+					wait = true;
+				} 
+				else{
+					wait=false;
+					for (int i = 0; i < 4; i++) {
+						for (int j = 0; j < 4; j++) {
+							if (tetr.Form[i][j] != 0) {
+								backgr.setaZ(tetr.getPosX() + i, tetr.getPosY()
+										- j, tetr.Form[i][j]);
+
+							}
 						}
 					}
-				}
-				gentetr();
-				score++;
-				isHold = false;
-				clearedRowInst = 0;
-				for (int y = 0; y < 20; y++) {
-					if (backgr.checkLine(y)) {
-						backgr.delLine(y);
-						y--;
-						clearedRowInst++;
-						score = score + clearedRow * 10;
-						clearedRow++;
-						speedup(90);
+					gentetr();
+					score++;
+					isHold = false;
+					clearedRowInst = 0;
+					for (int y = 0; y < 20; y++) {
+						if (backgr.checkLine(y)) {
+							backgr.delLine(y);
+							y--;
+							clearedRowInst++;
+							score = score + clearedRow * 10;
+							clearedRow++;
+							speedup(90);
+						}
 					}
-				}
-				switch (clearedRowInst) {//check if tetris
-				case 0:
-					clearedRow = 0;
-					break;
-				case 1:
-					score += 5;
-					tetris = false;
-					break;
-				case 2:
-					score += 5;
-					tetris = false;
-					break;
-				case 3:
-					score += 5;
-					tetris = false;
-					break;
-				case 4:
-					if (tetris) {//additional if 2 tetris back2back
+					switch (clearedRowInst) {// check if tetris
+					case 0:
+						clearedRow = 0;
+						break;
+					case 1:
+						score += 5;
+						tetris = false;
+						break;
+					case 2:
+						score += 5;
+						tetris = false;
+						break;
+					case 3:
+						score += 5;
+						tetris = false;
+						break;
+					case 4:
+						if (tetris) {// additional if 2 tetris back2back
+							score += 20;
+						}
 						score += 20;
+						tetris = true;
+						break;
 					}
-					score += 20;
-					tetris = true;
-					break;
+					// bonus combo
+					speedup(99);
+
+					sethigh(main.setScore(score, high));
+					if (!check(tetr.getPosX(), tetr.getPosY())) {// check if
+																	// gameover
+						gameover();
+					}
+
 				}
-				// bonus combo
-				speedup(99);
-				
-				sethigh(main.setScore(score,high));
-				if (!check(tetr.getPosX(), tetr.getPosY())) {//check if gameover
-					gameover();
-				}
-				
 			}
 			// pause = pausedef;
 			draw();
@@ -214,11 +245,7 @@ int high=0;
 	}
 
 	public void pause() {
-		if (!p) {
-			p = true;
-		} else {
-			p = false;
-		}
+		p = !p;
 	}
 
 	public void gameover() {
@@ -228,18 +255,20 @@ int high=0;
 	public void speedup(int x) {
 		pause = pause * x / 100;
 	}
-	public void gethigh(){
+
+	public void gethigh() {
 		try {
 			Scanner scanner = new Scanner(new File("filename.txt"));
-			high=scanner.nextInt();
+			high = scanner.nextInt();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			high=0;
+			high = 0;
 		}
 	}
-	public void sethigh(int f){
-		
-		high=f;
+
+	public void sethigh(int f) {
+
+		high = f;
 		try {
 			PrintWriter out = new PrintWriter("filename.txt");
 			out.print(Integer.toString(high));
@@ -248,6 +277,6 @@ int high=0;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
+	}
 
 }
